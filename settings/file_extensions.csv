@@ -25,3 +25,31 @@ File extension,Name
 .csv,tot csv
 .csv,dot cassie
 .txt,dot text
+.class,dot class
+.css,dot css
+.docx,dot doc x
+.doc,dot doc
+.ex,dot elixir
+.flac,dot flack
+.gz,dot g z
+.gzip,dot g zip
+.go,dot go lang
+.html,dot html
+.jl,dot J L
+.java,dot java
+.jl,dot julia
+.log,dot log
+.ods,dot ods
+.odt,dot odt
+.ods,dot oh de es
+.odt,dot oh de tee
+.pdf,dot pdf
+.png,dot png
+.ps1,dot ps one
+.sass,dot sass
+.svg,dot svg
+.talon-list,dot talon list
+.tar,dot tar
+.toml,dot toml
+.wav,dot wave
+.zip,dot zip

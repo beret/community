@@ -51,6 +51,7 @@ chr,char
 char,character
 chk,check
 chld,child
+cn,china
 cls,class
 cli,client
 col,column
@@ -292,11 +293,13 @@ prev,previous
 priv,private
 proc,process
 cpu,processor
+prod,production
 prog,program
 progs,programs
 props,properties
 prop,property
 proto,protocol
+protobuf,protocol buffers
 pub,public
 py,python
 qc,quebec
