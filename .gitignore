@@ -8,6 +8,7 @@ __pycache__
 /private
 /core/system_paths-*.talon-list
 /plugin/new_user_message/new_user_message_dismissed
+/stored_state/breaking_changes_update_notice/previous_breaking_changes_size
 .vscode/settings.json
 .DS_Store
 *.bak
