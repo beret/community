@@ -1,6 +1,7 @@
 os: mac
 app: finder
 -
+
 tag(): user.address
 tag(): user.file_manager
 tag(): user.navigation
@@ -24,6 +25,8 @@ list view: key(cmd-2)
 gallery view: key(cmd-4)
 
 trash it: key(cmd-backspace)
+
+hidden [files] toggle: key(cmd-shift-.)
 
 hide [finder]: key(cmd-h)
 hide others: app.window_hide_others()

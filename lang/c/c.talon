@@ -1,5 +1,6 @@
 code.language: c
 -
+
 tag(): user.code_imperative
 
 tag(): user.code_comment_line
@@ -84,4 +85,4 @@ int main: user.insert_between("int main(", ")")
 
 include <user.code_libraries>:
     user.code_insert_library(code_libraries, "")
-    key(end enter)
+    edit.line_insert_down()

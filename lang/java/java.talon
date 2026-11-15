@@ -1,5 +1,6 @@
 code.language: java
 -
+
 tag(): user.code_imperative
 tag(): user.code_object_oriented
 
@@ -24,7 +25,9 @@ settings():
     user.code_protected_variable_formatter = "PRIVATE_CAMEL_CASE"
     user.code_public_variable_formatter = "PRIVATE_CAMEL_CASE"
 
-state var: "var "
+state var:
+    user.deprecate_command("2026-11-13", "state var", "put var")
+    insert("var ")
 
 # Types Commands
 boxed [type] {user.java_boxed_type}: insert(user.java_boxed_type + " ")

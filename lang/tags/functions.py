@@ -5,7 +5,6 @@ from talon import Context, Module, actions, settings
 ctx = Context()
 mod = Module()
 
-# TODO: abstract visibilities using a list (#663)
 
 mod.tag("code_functions", desc="Tag for enabling commands for functions")
 
@@ -18,17 +17,10 @@ mod.list(
     desc="List of function modifiers (e.g. private, async, static)",
 )
 
-ctx.lists["user.code_function_modifier"] = {
-    "pub": "public",
-    "pro": "protected",
-    "private": "private",
-    "static": "static",
-}
-
 
 @mod.capture(rule="{user.code_type}")
 def code_type(m) -> str:
-    """Returns a macro name"""
+    """Returns a type name"""
     return m.code_type
 
 
@@ -38,6 +30,12 @@ mod.setting("code_public_function_formatter", str)
 mod.setting("code_private_variable_formatter", str)
 mod.setting("code_protected_variable_formatter", str)
 mod.setting("code_public_variable_formatter", str)
+mod.setting(
+    "code_class_formatter",
+    type=str,
+    default="PUBLIC_CAMEL_CASE",
+    desc="Formatter used when a class/type name is dictated as free text (e.g. 'returns' followed by a spoken class name)",
+)
 
 
 @mod.action_class
@@ -52,22 +50,21 @@ class Actions:
 
         if mods == {}:
             return actions.user.code_default_function(text)
-        elif mods == {"static"}:
+        if mods == {"static"}:
             return actions.user.code_private_static_function(text)
-        elif mods == {"private"}:
+        if mods == {"private"}:
             return actions.user.code_private_function(text)
-        elif mods == {"private", "static"}:
+        if mods == {"private", "static"}:
             return actions.user.code_private_static_function(text)
-        elif mods == {"protected"}:
+        if mods == {"protected"}:
             return actions.user.code_protected_function(text)
-        elif mods == {"protected", "static"}:
+        if mods == {"protected", "static"}:
             return actions.user.code_protected_static_function(text)
-        elif mods == {"public"}:
+        if mods == {"public"}:
             return actions.user.code_public_function(text)
-        elif mods == {"public", "static"}:
+        if mods == {"public", "static"}:
             return actions.user.code_public_static_function(text)
-        else:
-            raise RuntimeError(f"Unhandled modifier set: {mods}")
+        raise RuntimeError(f"Unhandled modifier set: {mods}")
 
     def code_default_function(text: str):
         """Inserts function declaration"""

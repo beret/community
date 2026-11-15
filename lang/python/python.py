@@ -119,7 +119,9 @@ mod.list(
 # this should be moved to a talon-list file after this becomes stable
 ctx.lists["user.python_generic_type"] = {
     "callable": "Callable",
+    "dick": "dict",
     "dictionary": "dict",
+    "frozen set": "frozenset",
     "iterable": "Iterable",
     "list": "list",
     "optional": "Optional",
@@ -130,7 +132,8 @@ ctx.lists["user.python_generic_type"] = {
 
 
 @ctx.capture(
-    "user.generic_type_parameter_argument", rule="<user.code_type> | [type] <user.text>"
+    "user.generic_type_parameter_argument",
+    rule="<user.code_type> | [type] <user.text>",
 )
 def generic_type_parameter_argument(m) -> str:
     """A Python type parameter for a generic data structure"""
@@ -151,7 +154,8 @@ def generic_data_structure(m) -> str:
 
 
 @ctx.capture(
-    "user.generic_type_connector", rule="<user.common_generic_type_connector>|or"
+    "user.generic_type_connector",
+    rule="<user.common_generic_type_connector> | or",
 )
 def generic_type_connector(m) -> SimpleLanguageSpecificTypeConnector:
     """A Python specific type connector for union types"""
@@ -190,6 +194,7 @@ operators = Operators(
     ASSIGNMENT_DIVISION=" /= ",
     ASSIGNMENT_MODULO=" %= ",
     ASSIGNMENT_INCREMENT=" += 1",
+    ASSIGNMENT_DECREMENT=" -= 1",
     ASSIGNMENT_BITWISE_AND=" &= ",
     ASSIGNMENT_BITWISE_OR=" |= ",
     ASSIGNMENT_BITWISE_EXCLUSIVE_OR=" ^= ",
@@ -232,25 +237,25 @@ class UserActions:
         return operators
 
     def code_self():
-        actions.auto_insert("self")
+        actions.insert("self")
 
     def code_operator_object_accessor():
-        actions.auto_insert(".")
+        actions.insert(".")
 
     def code_insert_null():
-        actions.auto_insert("None")
+        actions.insert("None")
 
     def code_insert_is_null():
-        actions.auto_insert(" is None")
+        actions.insert(" is None")
 
     def code_insert_is_not_null():
-        actions.auto_insert(" is not None")
+        actions.insert(" is not None")
 
     def code_insert_true():
-        actions.auto_insert("True")
+        actions.insert("True")
 
     def code_insert_false():
-        actions.auto_insert("False")
+        actions.insert("False")
 
     def code_insert_function(text: str, selection: str):
         text += f"({selection or ''})"

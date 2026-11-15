@@ -17,7 +17,7 @@ void $1($2) {
 
 language: javascript | typescript | javascriptreact | typescriptreact
 
-$1.insertionFormatter: PRIVATE_CAMEL_CASE
+$1.insertionFormatter: setting(user.code_private_function_formatter)
 -
 function $1($2) {
     $0
@@ -26,14 +26,15 @@ function $1($2) {
 
 language: python
 
-$1.insertionFormatter: SNAKE_CASE
+$1.insertionFormatter: setting(user.code_public_function_formatter)
 -
 def $1($2):
     $0
 ---
 
 language: rust
-$1.insertionFormatter: SNAKE_CASE
+
+$1.insertionFormatter: setting(user.code_private_function_formatter)
 -
 fn $1($2) {
     $0
@@ -42,7 +43,7 @@ fn $1($2) {
 
 language: ruby
 
-$1.insertionFormatter: SNAKE_CASE
+$1.insertionFormatter: setting(user.code_public_function_formatter)
 -
 def $1($2)
     $0
@@ -58,7 +59,7 @@ endfunction
 
 language: php
 
-$1.insertionFormatter: SNAKE_CASE
+$1.insertionFormatter: setting(user.code_public_function_formatter)
 -
 function $1($2) {
     $0
@@ -67,9 +68,27 @@ function $1($2) {
 
 language: r
 
-$1.insertionFormatter: SNAKE_CASE
+$1.insertionFormatter: setting(user.code_private_function_formatter)
 -
 $1 <- function($2){
     $0
 }
+---
+
+language: go
+
+$1.insertionFormatter: setting(user.code_private_function_formatter)
+-
+func $1($2) {
+    $0
+}
+---
+
+language: lua
+
+$1.insertionFormatter: setting(user.code_private_function_formatter)
+-
+function $1 ($2)
+    $0
+end
 ---

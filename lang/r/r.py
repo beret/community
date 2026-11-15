@@ -9,83 +9,6 @@ code.language: r
 """
 
 
-ctx.lists["user.code_libraries"] = {
-    "bayes plot": "bayesplot",
-    "BRMS": "brms",
-    "cable": "kable",
-    "car": "car",
-    "D plier": "dplyr",
-    "dev tools": "devtools",
-    "future": "future",
-    "furr": "furrr",
-    "gap minder": "gapminder",
-    "gee animate": "gganimate",
-    "gee highlight": "gghighlight",
-    "gee map": "ggmap",
-    "gee repel": "ggrepel",
-    "grid extra": "gridExtra",
-    "gee gee plot": "ggplot2",
-    "GLMM TMB": "glmmTMB",
-    "here": "here",
-    "knitter": "knitr",
-    "LME four": "lme4",
-    "LM test": "lmtest",
-    "lubridate": "lubridate",
-    "margins": "margins",
-    "inla": "INLA",
-    "NLME": "nlme",
-    "psych": "psych",
-    "purr": "purrr",
-    "R markdown": "rmarkdown",
-    "R stan": "rstan",
-    "R stan arm": "rstanarm",
-    "R color brewer": "RColorBrewer",
-    "read R": "readr",
-    "stargazer": "stargazer",
-    "tidy verse": "tidyverse",
-    "tidier": "tidyr",
-    "tidy bayes": "tidybayes",
-    "TMB": "TMB",
-    "vee table": "vtable",
-    "viridis": "viridis",
-    "viridis light": "viridisLite",
-    "shiny alert": "shinyalert",
-}
-
-ctx.lists["user.code_parameter_name"] = {
-    "alpha": "alpha",
-    "breaks": "breaks",
-    "colour": "colour",
-    "data": "data",
-    "fill": "fill",
-    "H just": "hjust",
-    "keep": ".keep",
-    "label": "label",
-    "labels": "labels",
-    "log": "log",
-    "main": "main",
-    "mapping": "mapping",
-    "method": "method",
-    "NA remove": "na.rm",
-    "path": "path",
-    "position": "position",
-    "plex label": "xlab",
-    "plex limit": "xlim",
-    "scales": "scales",
-    "size": "size",
-    "show legend": "show.legend",
-    "sort": "sort",
-    "title": "title",
-    "type": "type",
-    "vee just": "vjust",
-    "width": "width",
-    "with ties": "with_ties",
-    "why label": "ylab",
-    "why limit": "ylim",
-    "why max": "ymax",
-    "why min": "ymin",
-}
-
 operators = Operators(
     # code_operators_assignment
     ASSIGNMENT=" <- ",
@@ -116,13 +39,19 @@ class UserActions:
         return operators
 
     def code_insert_null():
-        actions.auto_insert("NULL")
+        actions.insert("NULL")
+
+    def code_insert_is_null():
+        actions.user.insert_between("is.null(", ")")
+
+    def code_insert_is_not_null():
+        actions.user.insert_between("!is.null(", ")")
 
     def code_insert_true():
-        actions.auto_insert("TRUE")
+        actions.insert("TRUE")
 
     def code_insert_false():
-        actions.auto_insert("FALSE")
+        actions.insert("FALSE")
 
     def code_insert_function(text: str, selection: str):
         text += f"({selection or ''})"

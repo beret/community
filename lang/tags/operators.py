@@ -1,4 +1,5 @@
-from typing import Callable, TypedDict
+from collections.abc import Callable
+from typing import TypedDict
 
 from talon import Module, actions
 
@@ -44,6 +45,7 @@ class Operators(TypedDict, total=False):
     ASSIGNMENT_DIVISION: Operator
     ASSIGNMENT_MODULO: Operator
     ASSIGNMENT_INCREMENT: Operator
+    ASSIGNMENT_DECREMENT: Operator
     ASSIGNMENT_BITWISE_AND: Operator
     ASSIGNMENT_BITWISE_OR: Operator
     ASSIGNMENT_BITWISE_EXCLUSIVE_OR: Operator

@@ -1,15 +1,51 @@
 import math
-from typing import Iterator, Union
+from collections.abc import Iterator
+from typing import Union
 
 from talon import Context, Module
 
 mod = Module()
 ctx = Context()
 
-digit_list = "zero one two three four five six seven eight nine".split()
-teens = "ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
-tens = "twenty thirty forty fifty sixty seventy eighty ninety".split()
-scales = "hundred thousand million billion trillion quadrillion quintillion sextillion septillion octillion nonillion decillion".split()
+digit_list = [
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+]
+teens = [
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+]
+tens = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
+scales = [
+    "hundred",
+    "thousand",
+    "million",
+    "billion",
+    "trillion",
+    "quadrillion",
+    "quintillion",
+    "sextillion",
+    "septillion",
+    "octillion",
+    "nonillion",
+    "decillion",
+]
 
 digits_map = {n: i for i, n in enumerate(digit_list)}
 digits_map["oh"] = 0
@@ -167,42 +203,6 @@ def split_list(value, l: list) -> Iterator:
     yield l[start:]
 
 
-# # ---------- TESTS (uncomment to run) ----------
-# def test_number(expected, string):
-#     print('testing:', string)
-#     l = list(scan_small_numbers(string.split()))
-#     print("  scan --->", l)
-#     for scale in scales:
-#         old = l
-#         l = parse_scale(scale, l)
-#         if scale in old: print("  parse -->", l)
-#         else: assert old == l, "parse_scale should do nothing if the scale does not occur in the list"
-#     result = "".join(str(n) for n in l)
-#     assert result == parse_number(string.split())
-#     assert str(expected) == result, f"parsing {string!r}, expected {expected}, got {result}"
-
-# test_number(105000, "one hundred and five thousand")
-# test_number(1000000, "one thousand thousand")
-# test_number(1501000, "one million five hundred one thousand")
-# test_number(1501106, "one million five hundred and one thousand one hundred and six")
-# test_number(123, "one two three")
-# test_number(123, "one twenty three")
-# test_number(104, "ten four") # borderline, but valid in some dialects
-# test_number(1066, "ten sixty six") # a common way of saying years
-# test_number(1906, "nineteen oh six") # year
-# test_number(2001, "twenty oh one") # year
-# test_number(2020, "twenty twenty")
-# test_number(1001, "one thousand one")
-# test_number(1010, "one thousand ten")
-# test_number(123456, "one hundred and twenty three thousand and four hundred and fifty six")
-# test_number(123456, "one twenty three thousand four fifty six")
-
-# ## failing (and somewhat debatable) tests from old numbers.py
-# #test_number(10000011, "one million one one")
-# #test_number(100001010, "one million ten ten")
-# #test_number(1050006000, "one hundred thousand and five thousand and six thousand")
-
-
 # ---------- CAPTURES ----------
 alt_digits = "(" + "|".join(digits_map.keys()) + ")"
 alt_teens = "(" + "|".join(teens_map.keys()) + ")"
@@ -216,7 +216,10 @@ number_word_leading = f"({'|'.join(leading_words)})"
 
 
 mod.list("number_small", "List of small (0-99) numbers")
-mod.tag("unprefixed_numbers", desc="Dont require prefix when saying a number")
+mod.tag(
+    "unprefixed_numbers",
+    desc='Enable support for saying numbers without a prefix. By default you need to say "numb one" to write "1". Enabling this lets you say "one" to write "1".',
+)
 ctx.lists["user.number_small"] = get_spoken_form_under_one_hundred(
     0,
     99,
@@ -225,13 +228,18 @@ ctx.lists["user.number_small"] = get_spoken_form_under_one_hundred(
 )
 
 
-# TODO: allow things like "double eight" for 88
-@ctx.capture("digit_string", rule=f"({alt_digits} | {alt_teens} | {alt_tens})+")
+@ctx.capture(
+    "digit_string",
+    rule=f"({alt_digits} | {alt_teens} | {alt_tens})+",
+)
 def digit_string(m) -> str:
     return parse_number(list(m))
 
 
-@ctx.capture("digits", rule="<digit_string>")
+@ctx.capture(
+    "digits",
+    rule="<digit_string>",
+)
 def digits(m) -> int:
     """Parses a phrase representing a digit sequence, returning it as an integer."""
     return int(m.digit_string)
@@ -243,7 +251,10 @@ def number_string(m) -> str:
     return parse_number(list(m))
 
 
-@ctx.capture("number", rule="<user.number_string>")
+@ctx.capture(
+    "number",
+    rule="<user.number_string>",
+)
 def number(m) -> int:
     """Parses a number phrase, returning it as an integer."""
     return int(m.number_string)
@@ -256,7 +267,10 @@ def number_signed_string(m) -> str:
     return f"-{number}" if (m[0] in ["negative", "minus"]) else number
 
 
-@ctx.capture("number_signed", rule="<user.number_signed_string>")
+@ctx.capture(
+    "number_signed",
+    rule="<user.number_signed_string>",
+)
 def number_signed(m) -> int:
     """Parses a (possibly negative) number phrase, returning that number as a integer."""
     return int(m.number_signed_string)
@@ -278,7 +292,14 @@ def number_prose_with_colon(m) -> str:
 
 
 @mod.capture(
-    rule="<user.number_signed_string> | <user.number_prose_with_dot> | <user.number_prose_with_comma> | <user.number_prose_with_colon>"
+    rule=" | ".join(
+        [
+            "<user.number_signed_string>",
+            "<user.number_prose_with_dot>",
+            "<user.number_prose_with_comma>",
+            "<user.number_prose_with_colon>",
+        ]
+    )
 )
 def number_prose_unprefixed(m) -> str:
     return m[0]
@@ -289,7 +310,10 @@ def number_prose_prefixed(m) -> str:
     return m.number_prose_unprefixed
 
 
-@ctx.capture("number_small", rule="{user.number_small}")
+@ctx.capture(
+    "number_small",
+    rule="{user.number_small}",
+)
 def number_small(m) -> int:
     return int(m.number_small)
 
