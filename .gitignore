@@ -6,6 +6,8 @@ __pycache__
 # we highly recommended against removing the private folder from the gitignore file
 # the directory is used to store sensitive information such as contacts
 /private
+/core/system_paths-*.talon-list
+/plugin/new_user_message/new_user_message_dismissed
 .vscode/settings.json
 .DS_Store
 *.bak
@@ -15,5 +17,4 @@ __pycache__
 .\#*
 # Vim (from https://github.com/github/gitignore/blob/main/Global/Vim.gitignore)
 [._]*.swp
-
 check-shasum
